@@ -54,3 +54,5 @@ data/
 ## Build output
 build/
 dist/
+
+easyshare.keystore
