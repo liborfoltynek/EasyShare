@@ -20,7 +20,58 @@
                    TextColor="{StaticResource TextSecondary}"
                    HorizontalOptions="Center"
                    HorizontalTextAlignment="Center"
-                   Margin="0,8,0,32" />
+                   Margin="0,8,0,24" />
+
+            <!-- ═══════ IMPORT SECTION ═══════ -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="12">
+
+                    <!-- Import from file -->
+                    <Button x:Name="ImportFileButton"
+                            BackgroundColor="#2a2a3a"
+                            TextColor="{StaticResource TextPrimary}"
+                            FontSize="15"
+                            CornerRadius="8"
+                            HeightRequest="48"
+                            Clicked="OnImportFileClicked" />
+
+                    <!-- Paste JSON -->
+                    <Label x:Name="PasteJsonHintLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}"
+                           Margin="0,4,0,0" />
+                    <Editor x:Name="JsonPasteEditor"
+                            FontSize="12"
+                            TextColor="{StaticResource TextPrimary}"
+                            BackgroundColor="#12121c"
+                            HeightRequest="100"
+                            AutoSize="TextChanges"
+                            FontFamily="Consolas"
+                            IsSpellCheckEnabled="False"
+                            IsTextPredictionEnabled="False" />
+                    <Button x:Name="ApplyJsonButton"
+                            BackgroundColor="#2a2a3a"
+                            TextColor="{StaticResource AccentBlue}"
+                            FontSize="14"
+                            CornerRadius="8"
+                            HeightRequest="44"
+                            Clicked="OnApplyJsonClicked" />
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Separator -->
+            <Label x:Name="OrManualLabel"
+                   FontSize="13"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center"
+                   Margin="0,4,0,16" />
+
+            <!-- ═══════ MANUAL ENTRY ═══════ -->
 
             <!-- Upload Endpoint -->
             <Frame BackgroundColor="{StaticResource SurfaceDark}"
@@ -90,10 +141,17 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Error -->
+            <!-- Error / message -->
             <Label x:Name="ErrorLabel"
                    FontSize="13"
                    TextColor="{StaticResource ErrorRed}"
+                   HorizontalOptions="Center"
+                   IsVisible="False"
+                   Margin="0,0,0,12" />
+
+            <Label x:Name="SuccessLabel"
+                   FontSize="13"
+                   TextColor="{StaticResource SuccessGreen}"
                    HorizontalOptions="Center"
                    IsVisible="False"
                    Margin="0,0,0,12" />

@@ -80,4 +80,13 @@ public static class Strings
     public static string ApiKeyHelp => L("Same key as in the server configuration.", "Stejný klíč jako v konfiguraci serveru.");
     public static string CodeLengthHelp => L("Must be the same across all clients (default: 8).", "Musí být stejná ve všech klientech (výchozí: 8).");
     public static string SaveAndContinue => L("Save & continue", "Uložit a pokračovat");
+
+    // Setup page — import section
+    public static string SetupOrImport => L("— or import configuration —", "— nebo importujte konfiguraci —");
+    public static string ImportFromFile => L("📂 Import from file", "📂 Import ze souboru");
+    public static string PasteJsonHint => L("Or paste JSON configuration here:", "Nebo sem vložte JSON konfiguraci:");
+    public static string PasteJsonPlaceholder => L("{\"UploadEndpoint\":\"...\",\"ApiKey\":\"...\",\"ShareCodeLength\":8}", "{\"UploadEndpoint\":\"...\",\"ApiKey\":\"...\",\"ShareCodeLength\":8}");
+    public static string ApplyPastedJson => L("Apply pasted configuration", "Použít vloženou konfiguraci");
+    public static string InvalidJson => L("Invalid JSON format. Check the pasted text.", "Neplatný formát JSON. Zkontrolujte vložený text.");
+    public static string PasteEmpty => L("Paste or type a JSON configuration first.", "Nejdříve vložte nebo napište JSON konfiguraci.");
 }
