@@ -1,0 +1,9 @@
+{
+    "BaseUrl": "",
+    "UploadEndpoint": "",
+    "ApiKey": "",
+    "ShareCodeLength": 8,
+    "DataRoot": "",
+    "SmbPort": 445,
+    "SmbTimeoutMs": 1500
+}

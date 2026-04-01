@@ -1,0 +1,56 @@
+## Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+[Ll]og/
+[Ll]ogs/
+x64/
+x86/
+bld/
+publish/
+
+## Visual Studio
+.vs/
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## .NET
+project.lock.json
+project.fragment.lock.json
+artifacts/
+*.nuget.props
+*.nuget.targets
+*.nupkg
+*.snupkg
+
+## IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+## OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+## EasyShare — sensitive configuration (contains API keys)
+config.json
+src/EasyShare.Server/config.json
+src/EasyShare.Windows/config.json
+
+## Server data directory (uploaded files)
+src/EasyShare.Server/data/
+data/
+
+## Build output
+build/
+dist/

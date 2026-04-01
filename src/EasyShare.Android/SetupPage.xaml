@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EasyShare.Android.SetupPage"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,48,24,24" Spacing="0">
+
+            <!-- Logo -->
+            <Label Text="⚙️" FontSize="48" HorizontalOptions="Center" Margin="0,0,0,8" />
+            <Label x:Name="SetupTitleLabel"
+                   FontSize="28"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource TextWhite}"
+                   HorizontalOptions="Center" />
+            <Label x:Name="SetupDescLabel"
+                   FontSize="14"
+                   TextColor="{StaticResource TextSecondary}"
+                   HorizontalOptions="Center"
+                   HorizontalTextAlignment="Center"
+                   Margin="0,8,0,32" />
+
+            <!-- Upload Endpoint -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Upload Endpoint"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Entry x:Name="EndpointEntry"
+                           Placeholder="https://files.example.com/upload.php"
+                           PlaceholderColor="#555555"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="#12121c"
+                           FontSize="14"
+                           Keyboard="Url" />
+                    <Label x:Name="EndpointHelpLabel"
+                           FontSize="11"
+                           TextColor="#555555" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- API Key -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="ApiKeyLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Entry x:Name="ApiKeyEntry"
+                           PlaceholderColor="#555555"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="#12121c"
+                           FontSize="14"
+                           IsPassword="True" />
+                    <Label x:Name="ApiKeyHelpLabel"
+                           FontSize="11"
+                           TextColor="#555555" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Key Length -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,24">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="CodeLengthLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Entry x:Name="CodeLengthEntry"
+                           Text="8"
+                           PlaceholderColor="#555555"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="#12121c"
+                           FontSize="14"
+                           Keyboard="Numeric" />
+                    <Label x:Name="CodeLengthHelpLabel"
+                           FontSize="11"
+                           TextColor="#555555" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Error -->
+            <Label x:Name="ErrorLabel"
+                   FontSize="13"
+                   TextColor="{StaticResource ErrorRed}"
+                   HorizontalOptions="Center"
+                   IsVisible="False"
+                   Margin="0,0,0,12" />
+
+            <!-- Save button -->
+            <Button x:Name="SaveButton"
+                    BackgroundColor="{StaticResource AccentBlue}"
+                    TextColor="#000000"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="56"
+                    CornerRadius="12"
+                    Clicked="OnSaveClicked"
+                    Margin="0,0,0,12" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

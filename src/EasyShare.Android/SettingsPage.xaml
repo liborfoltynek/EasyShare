@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EasyShare.Android.SettingsPage"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             x:Name="SettingsPageRoot">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,24,24,24" Spacing="0">
+
+            <Label x:Name="SettingsTitleLabel"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="{StaticResource TextWhite}"
+                   Margin="0,0,0,24" />
+
+            <!-- Upload Endpoint -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Upload Endpoint"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Entry x:Name="EndpointEntry"
+                           Placeholder="https://files.example.com/upload.php"
+                           PlaceholderColor="#555555"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="#12121c"
+                           FontSize="14"
+                           Keyboard="Url" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- API Key -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="ApiKeyLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Entry x:Name="ApiKeyEntry"
+                           PlaceholderColor="#555555"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="#12121c"
+                           FontSize="14"
+                           IsPassword="True" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Key Length -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,24">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="CodeLengthLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Entry x:Name="CodeLengthEntry"
+                           PlaceholderColor="#555555"
+                           TextColor="{StaticResource TextPrimary}"
+                           BackgroundColor="#12121c"
+                           FontSize="14"
+                           Keyboard="Numeric" />
+                    <Label x:Name="CodeLengthHintLabel"
+                           FontSize="11"
+                           TextColor="#555555" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Message -->
+            <Label x:Name="MessageLabel"
+                   FontSize="13"
+                   HorizontalOptions="Center"
+                   IsVisible="False"
+                   Margin="0,0,0,12" />
+
+            <!-- Save -->
+            <Button x:Name="SaveButton"
+                    BackgroundColor="{StaticResource AccentBlue}"
+                    TextColor="#000000"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="56"
+                    CornerRadius="12"
+                    Clicked="OnSaveClicked"
+                    Margin="0,0,0,24" />
+
+            <!-- Import / Export -->
+            <Frame BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   Margin="0,0,0,24">
+                <VerticalStackLayout Spacing="12">
+                    <Label x:Name="BackupTitleLabel"
+                           FontSize="15"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextWhite}" />
+                    <Label x:Name="BackupDescLabel"
+                           FontSize="12"
+                           TextColor="#666666" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12">
+                        <Button x:Name="ImportButton"
+                                Grid.Column="0"
+                                BackgroundColor="#2a2a3a"
+                                TextColor="{StaticResource TextPrimary}"
+                                FontSize="14"
+                                CornerRadius="8"
+                                HeightRequest="44"
+                                Clicked="OnImportClicked" />
+                        <Button x:Name="ExportButton"
+                                Grid.Column="1"
+                                BackgroundColor="#2a2a3a"
+                                TextColor="{StaticResource TextPrimary}"
+                                FontSize="14"
+                                CornerRadius="8"
+                                HeightRequest="44"
+                                Clicked="OnExportClicked" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Back -->
+            <Button x:Name="BackButton"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource TextSecondary}"
+                    FontSize="14"
+                    Clicked="OnBackClicked" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

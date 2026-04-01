@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EasyShare.Android.MainPage"
+             BackgroundColor="{StaticResource BackgroundDark}"
+             Shell.NavBarIsVisible="False">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="24,48,24,24" Spacing="0">
+
+            <!-- Header -->
+            <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,0">
+                <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center"
+                                     Grid.ColumnSpan="2">
+                    <Label Text="EasyShare"
+                           FontSize="32"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource TextWhite}"
+                           HorizontalOptions="Center" />
+                    <Label x:Name="ServerLabel"
+                           FontSize="14"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"
+                           Margin="0,4,0,0" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1"
+                        Text="⚙️"
+                        FontSize="20"
+                        BackgroundColor="Transparent"
+                        TextColor="{StaticResource TextSecondary}"
+                        VerticalOptions="Start"
+                        Clicked="OnSettingsClicked"
+                        Padding="8"
+                        WidthRequest="48"
+                        HeightRequest="48" />
+            </Grid>
+            <BoxView HeightRequest="32" Color="Transparent" />
+
+            <!-- File info -->
+            <Frame x:Name="FileInfoFrame"
+                   BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   IsVisible="False"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="SelectedFileLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Label x:Name="FileNameLabel"
+                           FontSize="16"
+                           TextColor="{StaticResource TextWhite}"
+                           LineBreakMode="TailTruncation" />
+                    <Label x:Name="FileSizeLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Label x:Name="ExpiryLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}"
+                           Margin="0,8,0,0" />
+                    <Picker x:Name="ExpiryPicker"
+                            TextColor="{StaticResource TextPrimary}"
+                            BackgroundColor="{StaticResource SurfaceDark}"
+                            HorizontalOptions="FillAndExpand" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Upload progress -->
+            <Frame x:Name="ProgressFrame"
+                   BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SurfaceBorder}"
+                   CornerRadius="12"
+                   Padding="20"
+                   IsVisible="False"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="10">
+                    <Label x:Name="UploadingLabel"
+                           FontSize="15"
+                           TextColor="{StaticResource TextWhite}" />
+                    <ProgressBar x:Name="UploadProgressBar"
+                                 Progress="0"
+                                 ProgressColor="{StaticResource AccentBlue}" />
+                    <Label x:Name="ProgressLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Result -->
+            <Frame x:Name="ResultFrame"
+                   BackgroundColor="{StaticResource SurfaceDark}"
+                   BorderColor="{StaticResource SuccessGreen}"
+                   CornerRadius="12"
+                   Padding="20"
+                   IsVisible="False"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="12">
+                    <Label x:Name="UploadedLabel"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource SuccessGreen}"
+                           HorizontalOptions="Center" />
+                    <Label x:Name="ShareLinkLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource TextSecondary}" />
+                    <Frame BackgroundColor="#12121c"
+                           BorderColor="{StaticResource SurfaceBorder}"
+                           CornerRadius="8"
+                           Padding="12">
+                        <Label x:Name="ResultUrlLabel"
+                               FontSize="16"
+                               TextColor="{StaticResource AccentBlue}"
+                               FontAttributes="Bold"
+                               HorizontalOptions="Center"
+                               HorizontalTextAlignment="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnUrlTapped" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </Frame>
+                    <Label x:Name="ExpiryInfoLabel"
+                           FontSize="12"
+                           TextColor="{StaticResource TextSecondary}"
+                           HorizontalOptions="Center"
+                           IsVisible="False" />
+                    <Label x:Name="ClipboardConfirmLabel"
+                           FontSize="13"
+                           TextColor="{StaticResource SuccessGreen}"
+                           HorizontalOptions="Center" />
+                    <Grid ColumnDefinitions="*,*" ColumnSpacing="12" Margin="0,4,0,0">
+                        <Button x:Name="CopyButton"
+                                BackgroundColor="{StaticResource AccentBlue}"
+                                TextColor="#000000"
+                                FontAttributes="Bold"
+                                CornerRadius="8"
+                                Clicked="OnCopyUrlClicked"
+                                Grid.Column="0" />
+                        <Button x:Name="ShareButton"
+                                BackgroundColor="{StaticResource SurfaceBorder}"
+                                TextColor="{StaticResource TextPrimary}"
+                                FontAttributes="Bold"
+                                CornerRadius="8"
+                                Clicked="OnShareUrlClicked"
+                                Grid.Column="1" />
+                    </Grid>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Error -->
+            <Frame x:Name="ErrorFrame"
+                   BackgroundColor="#2a1a1a"
+                   BorderColor="{StaticResource ErrorRed}"
+                   CornerRadius="12"
+                   Padding="20"
+                   IsVisible="False"
+                   Margin="0,0,0,16">
+                <VerticalStackLayout Spacing="8">
+                    <Label x:Name="ErrorTitleLabel"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           TextColor="{StaticResource ErrorRed}" />
+                    <Label x:Name="ErrorLabel"
+                           FontSize="14"
+                           TextColor="{StaticResource TextPrimary}"
+                           LineBreakMode="WordWrap" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Buttons -->
+            <Button x:Name="PickFileButton"
+                    BackgroundColor="{StaticResource SurfaceDark}"
+                    BorderColor="{StaticResource SurfaceBorder}"
+                    BorderWidth="1"
+                    TextColor="{StaticResource TextPrimary}"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="56"
+                    CornerRadius="12"
+                    Clicked="OnPickFileClicked"
+                    Margin="0,0,0,12" />
+
+            <Button x:Name="UploadButton"
+                    BackgroundColor="{StaticResource AccentBlue}"
+                    TextColor="#000000"
+                    FontSize="16"
+                    FontAttributes="Bold"
+                    HeightRequest="56"
+                    CornerRadius="12"
+                    Clicked="OnUploadClicked"
+                    IsEnabled="False"
+                    Opacity="0.5"
+                    Margin="0,0,0,12" />
+
+            <Button x:Name="ResetButton"
+                    BackgroundColor="Transparent"
+                    TextColor="{StaticResource TextSecondary}"
+                    FontSize="14"
+                    Clicked="OnResetClicked"
+                    IsVisible="False"
+                    Margin="0,0,0,24" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

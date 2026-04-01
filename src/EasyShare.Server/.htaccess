@@ -1,0 +1,13 @@
+# EasyShare - Apache URL Rewrite Rules
+#
+# Rewrites short share URLs (e.g. /abcDEF12) to index.php
+# Equivalent to the IIS rules in web.config
+
+RewriteEngine On
+
+# Only rewrite if the request is not an existing file or directory
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Match share keys (4-32 alphanumeric chars) with optional subpath
+RewriteRule ^([a-zA-Z0-9]{4,32})(/(.*))?$ index.php?key=$1&path=$3 [QSA,L]
