@@ -1,11 +1,12 @@
 <?php
 /**
  * og_icon.php - Dynamic OG preview image generator
- * Generates 1200x630 PNG images for social media link previews (WhatsApp, Telegram, etc.)
+ * Generates 1200x630 images for social media link previews (WhatsApp, Telegram, etc.)
  *
  * Usage:
  *   og_icon.php?mode=file&ext=pdf&name=document.pdf
  *   og_icon.php?mode=dir&name=MyFolder
+ *   og_icon.php?mode=preview&key=abc123       (image file thumbnail for OG)
  */
 
 if (!function_exists('imagecreatetruecolor')) {
@@ -78,7 +79,10 @@ for ($i = 0; $i < 50; $i++) {
 }
 
 // -- Render --
-if ($mode === 'dir') {
+if ($mode === 'preview') {
+    // Preview mode: generate 1200x630 thumbnail of an actual shared image file
+    renderImagePreview($img, $W, $H);
+} elseif ($mode === 'dir') {
     renderDirIcon($img, $W, $H, $name);
 } else {
     renderFileIcon($img, $W, $H, $ext, $name, $cExt, $cExtDark);
@@ -265,4 +269,121 @@ function renderDirIcon($img, $W, $H, $name) {
 
     // Bottom label
     ttfText($img, t('og_shared_folder'), $W / 2, $H - 65, $cMuted, 18, true);
+}
+
+// ============================================================
+// IMAGE PREVIEW for OG tags
+// Loads the actual shared image file and creates a 1200x630 thumbnail
+// ============================================================
+function renderImagePreview($img, $W, $H) {
+    global $cBg, $cLight, $cMuted, $name;
+
+    require_once __DIR__ . '/config.php';
+
+    $key = $_GET['key'] ?? '';
+    if (!preg_match('/^[a-zA-Z0-9]{4,32}$/', $key) || !isConfigured()) {
+        // Fallback to generic file icon
+        renderFileIcon($img, $W, $H, 'IMG', $name, imagecolorallocate($img, 110, 168, 254), imagecolorallocate($img, 60, 92, 140));
+        return;
+    }
+
+    $cfg = loadConfig();
+    $shareDir = $cfg['DataDir'] . '/' . $key;
+    $metaFile = $shareDir . '/meta.json';
+
+    if (!is_dir($shareDir) || !is_file($metaFile)) {
+        renderFileIcon($img, $W, $H, 'IMG', $name, imagecolorallocate($img, 110, 168, 254), imagecolorallocate($img, 60, 92, 140));
+        return;
+    }
+
+    $meta = json_decode(file_get_contents($metaFile), true);
+    if (!$meta) {
+        renderFileIcon($img, $W, $H, 'IMG', $name, imagecolorallocate($img, 110, 168, 254), imagecolorallocate($img, 60, 92, 140));
+        return;
+    }
+
+    $originalName = $meta['name'] ?? '';
+
+    // Find the actual file (not meta.json)
+    $files = array_diff(scandir($shareDir), ['.', '..', 'meta.json']);
+    if (empty($files)) {
+        renderFileIcon($img, $W, $H, 'IMG', $originalName, imagecolorallocate($img, 110, 168, 254), imagecolorallocate($img, 60, 92, 140));
+        return;
+    }
+
+    $fileName = reset($files);
+    $filePath = $shareDir . '/' . $fileName;
+
+    if (!is_file($filePath)) {
+        renderFileIcon($img, $W, $H, 'IMG', $originalName, imagecolorallocate($img, 110, 168, 254), imagecolorallocate($img, 60, 92, 140));
+        return;
+    }
+
+    // Try to load the image with GD
+    $srcImg = null;
+    $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+    switch ($ext) {
+        case 'jpg': case 'jpeg':
+            $srcImg = @imagecreatefromjpeg($filePath);
+            break;
+        case 'png':
+            $srcImg = @imagecreatefrompng($filePath);
+            break;
+        case 'gif':
+            $srcImg = @imagecreatefromgif($filePath);
+            break;
+        case 'webp':
+            if (function_exists('imagecreatefromwebp')) {
+                $srcImg = @imagecreatefromwebp($filePath);
+            }
+            break;
+        case 'bmp':
+            if (function_exists('imagecreatefrombmp')) {
+                $srcImg = @imagecreatefrombmp($filePath);
+            }
+            break;
+    }
+
+    if (!$srcImg) {
+        // Cannot load — fall back to file icon
+        $extUpper = strtoupper($ext);
+        renderFileIcon($img, $W, $H, $extUpper, $originalName, imagecolorallocate($img, 110, 168, 254), imagecolorallocate($img, 60, 92, 140));
+        return;
+    }
+
+    // Calculate dimensions to fit within a padded area
+    $padding = 40;
+    $bottomReserved = 80; // space for filename + branding
+    $maxW = $W - $padding * 2;
+    $maxH = $H - $padding - $bottomReserved;
+
+    $srcW = imagesx($srcImg);
+    $srcH = imagesy($srcImg);
+
+    $scale = min($maxW / $srcW, $maxH / $srcH, 1.0);
+    $dstW = (int)($srcW * $scale);
+    $dstH = (int)($srcH * $scale);
+
+    // Center on canvas
+    $dstX = (int)(($W - $dstW) / 2);
+    $dstY = (int)(($H - $bottomReserved - $dstH) / 2) + 10;
+
+    // Draw subtle shadow behind the image
+    $shadowColor = imagecolorallocatealpha($img, 0, 0, 0, 60);
+    imagefilledrectangle($img, $dstX + 4, $dstY + 4, $dstX + $dstW + 4, $dstY + $dstH + 4, $shadowColor);
+
+    // Draw a border frame
+    $borderColor = imagecolorallocate($img, 42, 42, 58);
+    imagefilledrectangle($img, $dstX - 2, $dstY - 2, $dstX + $dstW + 2, $dstY + $dstH + 2, $borderColor);
+
+    // Copy the resized image
+    imagecopyresampled($img, $srcImg, $dstX, $dstY, 0, 0, $dstW, $dstH, $srcW, $srcH);
+    imagedestroy($srcImg);
+
+    // Filename below the image
+    if ($originalName) {
+        $maxLen = 60;
+        $dn = mb_strlen($originalName) > $maxLen ? mb_substr($originalName, 0, $maxLen - 3) . '...' : $originalName;
+        ttfText($img, $dn, $W / 2, $H - 55, $cLight, 20, true);
+    }
 }

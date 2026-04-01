@@ -417,7 +417,7 @@ if ($type === 'file' || $type === 'zip') {
 <title><?= htmlspecialchars($originalName) ?> &ndash; <?= htmlspecialchars($siteName) ?></title>
 <?php if ($isImg): ?>
 <?php
-    $ogImageUrl = BASE_URL . '/' . urlencode($key) . '?preview=1';
+    $ogImageUrl = BASE_URL . '/og_icon.php?mode=preview&key=' . urlencode($key);
     $ogTitle = htmlspecialchars($originalName);
     $ogPageUrl = BASE_URL . '/' . urlencode($key);
 ?>
@@ -425,7 +425,9 @@ if ($type === 'file' || $type === 'zip') {
 <meta property="og:title" content="<?= $ogTitle ?>">
 <meta property="og:description" content="<?= $ogTitle ?> (<?= formatSize($fileSize) ?>)">
 <meta property="og:image" content="<?= $ogImageUrl ?>">
-<meta property="og:image:type" content="<?= getMimeType($fileName) ?>">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:url" content="<?= $ogPageUrl ?>">
 <meta property="og:site_name" content="<?= htmlspecialchars($siteName) ?>">
 <meta name="twitter:card" content="summary_large_image">
